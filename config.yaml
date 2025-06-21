@@ -1,0 +1,33 @@
+gateways:
+  ducklake:
+    connection:
+      type: duckdb
+      catalogs:
+        ducklake:
+          type: ducklake
+          path: postgres:host={{ env_var('PG__HOST') }} dbname={{ env_var('PG__DATABASE') }} user={{ env_var('PG__USER') }} password={{ env_var('PG__PASSWORD') }}
+          data_path: abfs://{{ env_var('FABRIC_WORKSPACE_NAME') }}/{{ env_var('FABRIC_LAKEHOUSE_NAME') }}.Lakehouse/Files/{{ env_var('FABRIC_DUCKLAKE_DATA_PATH') }}
+          encrypted: false
+      extensions:
+        - ducklake
+      file_systems:
+        - protocol: abfs
+          storage_options:
+            account_name: onelake
+            account_host: onelake.blob.fabric.microsoft.com
+            anon: True
+   
+    state_connection:
+      type: postgres
+      host: {{ env_var('PG__HOST') }}
+      port: {{ env_var('PG__PORT') }}
+      database: {{ env_var('PG__DATABASE') }}
+      user: {{ env_var('PG__USER') }}
+      password: {{ env_var('PG__PASSWORD') }}
+      sslmode: require
+
+default_gateway: ducklake
+
+model_defaults:
+  dialect: duckdb
+  start: 2025-05-29
