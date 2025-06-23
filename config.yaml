@@ -11,11 +11,10 @@ gateways:
       extensions:
         - ducklake
       file_systems:
-        - protocol: abfs
-          storage_options:
-            account_name: onelake
-            account_host: onelake.blob.fabric.microsoft.com
-            anon: True
+        - fs: abfs
+          account_name: onelake
+          account_host: onelake.blob.fabric.microsoft.com
+          anon: True
    
     state_connection:
       type: postgres
